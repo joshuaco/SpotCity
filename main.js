@@ -16,7 +16,7 @@ L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
 const showCities = (cities) => {
   const selectCities = document.querySelector('#select-cities');
 
-  cities.forEach((city) => {
+  cities.sort().forEach((city) => {
     const option = document.createElement('option');
     option.value = city;
     option.textContent = city;
@@ -42,22 +42,31 @@ const showMarkers = (coord) => {
 
 const searchButton = document.querySelector('#search-button');
 searchButton.addEventListener('click', async () => {
-  const searchInput = document.querySelector('#search-input');
-  const city = searchInput.value;
+  /* const searchInput = document.querySelector('#search-input');
+  const city = searchInput.value; */
   const selectCities = document.querySelector('#select-cities');
   const selectedCity = selectCities.value;
 
+  const selectedDate = document.querySelector('#date-picker').value;
+
   const events = await fetchData(selectedCity);
-  console.log(events);
-  showEvents(events);
+
+  if (selectedDate !== "") {
+    const filteredEvents = events.filter(
+      (event) => event.dates.start.localDate === selectedDate
+    );
+    showEvents(filteredEvents);
+  } else {
+    showEvents(events);
+  }
 });
 
 const getData = async () => {
   try {
     const cities = await fetchCities();
     showCities(cities);
-  } catch(error) {
-    console.log("Error to obtain cities: ", error);
+  } catch (error) {
+    console.log('Error to obtain cities: ', error);
   }
 };
 
