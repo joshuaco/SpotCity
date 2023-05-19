@@ -13,19 +13,28 @@ L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
   .bindPopup('A pretty CSS3 popup.<br> Easily customizable.')
   .openPopup(); */
 
-const showEvents = async () => {
-  const events = await fetchData();
-  console.log(events);
-
+const showEvents = (events) => {
+  const eventsContainer = document.querySelector('#events-container');
   events.forEach((event) => {
-    const eventList = document.createElement('p');
-    const marker = L.marker([
-      event._embedded.venues[0].location.latitude,
-      event._embedded.venues[0].location.longitude,
-    ]).addTo(map);
-    eventList.textContent = event.name;
-    console.log(eventList);
+    const eventName = document.createElement('p');
+    const eventLocation = event._embedded.venues[0].location;
+    eventName.textContent = event.name;
+    eventsContainer.appendChild(eventName);
+
+    showMarkers(eventLocation);
   });
 };
 
-showEvents();
+const showMarkers = (coord) => {
+  const marker = L.marker([coord.latitude, coord.longitude]).addTo(map);
+};
+
+const searchButton = document.querySelector('#search-button');
+searchButton.addEventListener('click', async () => {
+  const searchInput = document.querySelector('#search-input');
+  const city = searchInput.value;
+
+  const events = await fetchData(city);
+  console.log(events);
+  showEvents(events);
+});
