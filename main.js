@@ -1,4 +1,4 @@
-import { fetchData } from './api.js';
+import { fetchCities, fetchData } from './api.js';
 
 const map = L.map('map').setView([40.71427, -74.00597], 11);
 
@@ -12,6 +12,17 @@ L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
   .addTo(map)
   .bindPopup('A pretty CSS3 popup.<br> Easily customizable.')
   .openPopup(); */
+
+const showCities = (cities) => {
+  const selectCities = document.querySelector('#select-cities');
+
+  cities.forEach((city) => {
+    const option = document.createElement('option');
+    option.value = city;
+    option.textContent = city;
+    selectCities.appendChild(option);
+  });
+};
 
 const showEvents = (events) => {
   const eventsContainer = document.querySelector('#events-container');
@@ -33,8 +44,21 @@ const searchButton = document.querySelector('#search-button');
 searchButton.addEventListener('click', async () => {
   const searchInput = document.querySelector('#search-input');
   const city = searchInput.value;
+  const selectCities = document.querySelector('#select-cities');
+  const selectedCity = selectCities.value;
 
-  const events = await fetchData(city);
+  const events = await fetchData(selectedCity);
   console.log(events);
   showEvents(events);
 });
+
+const getData = async () => {
+  try {
+    const cities = await fetchCities();
+    showCities(cities);
+  } catch(error) {
+    console.log("Error to obtain cities: ", error);
+  }
+};
+
+getData();

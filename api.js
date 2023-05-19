@@ -6,20 +6,47 @@ const fetchData = async (city) => {
   try {
     const params = {
       apikey: API_KEY,
-      city: city,
       country: 'US',
-      size: 50, // API Limit due CORS policy's
+      city: city,
+      size: 100, // API Limit 200 due CORS policy's
     };
-    
+
     const queryString = new URLSearchParams(params).toString();
     const response = await fetch(`${API_URL}?${queryString}`);
     const data = await response.json();
 
     const events = data._embedded.events;
+    /* const cities = events.map(event => event._embedded.venues[0].city.name);
+    // Elimina ciudades duplicadas
+    const uniqueCities = [...new Set(cities)]; */
+
     return events;
   } catch (error) {
     console.log(error);
   }
 };
 
-export { fetchData };
+const fetchCities = async () => {
+  try {
+    const params = {
+      apikey: API_KEY,
+      country: 'US',
+      size: 100, // API Limit 200 due CORS policy's
+    };
+
+    const queryString = new URLSearchParams(params).toString();
+    const response = await fetch(`${API_URL}?${queryString}`);
+    const data = await response.json();
+
+    const events = data._embedded.events;
+    const cities = events.map(event => event._embedded.venues[0].city.name);
+    // Elimina ciudades duplicadas
+    const uniqueCities = [...new Set(cities)];
+
+    return uniqueCities;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export { fetchData, fetchCities };
