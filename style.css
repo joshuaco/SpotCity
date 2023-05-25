@@ -1,3 +1,45 @@
 #map {
-  height: 300px;
+  width: 50%;
+  height: 660px;
+  position: sticky;
+  top: 15px;
+}
+
+#events-container {
+  width: 55%;
+  border: 1px solid lightgray;
+  border-radius: 8px;
+}
+
+.event-container {
+  width: 100%;
+  display: flex;
+  gap: 15px;
+  padding: 15px;
+  cursor: pointer;
+}
+
+.event-img {
+  max-width: 300px;
+}
+
+.event-info {
+  width: 100%;
+}
+
+.event-info p {
+  margin-bottom: 8px;
+}
+
+.event-date, .event-time {
+  font-weight: 500;
+  font-size: 14px;
+}
+
+.event-name {
+  font-weight: 600;
+}
+
+.event-place {
+  font-weight: 300;
 }
