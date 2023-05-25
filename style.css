@@ -1,12 +1,12 @@
 #map {
-  width: 50%;
+  width: 45%;
   height: 660px;
   position: sticky;
   top: 15px;
 }
 
 #events-container {
-  width: 55%;
+  width: 50%;
   border: 1px solid lightgray;
   border-radius: 8px;
 }

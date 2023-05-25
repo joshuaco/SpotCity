@@ -1,4 +1,4 @@
-import { fetchCities, fetchData, fetchEventTypes } from './api.js';
+import { fetchCities, fetchData, fetchEventTypes, fetchGeoEvents } from './api.js';
 import { showLocation, showMarkers } from './map.js';
 
 const showCities = (cities) => {
@@ -14,7 +14,8 @@ const showCities = (cities) => {
 
 const showEvents = (events) => {
   const eventsContainer = document.querySelector('#events-container');
-  eventsContainer.innerHTML = '';
+  eventsContainer.innerHTML = `
+    <h2>Events in ${events[0]._embedded.venues[0].city.name}</h2>`;
 
   events.forEach((event) => {
     const eventContainer = document.createElement('div');
@@ -57,6 +58,8 @@ const showEvents = (events) => {
     eventsContainer.appendChild(eventContainer);
 
     eventContainer.addEventListener("click", () => {
+      
+      showMarkers(eventLocation, event.name, event._embedded.venues[0].name);
       showLocation(eventLocation);
     })
 
@@ -112,6 +115,8 @@ const getData = async () => {
     showCities(cities);
     const eventType = await fetchEventTypes();
     showEventTypes(eventType);
+    const geoEvent = await fetchGeoEvents();
+    showEvents(geoEvent);
   } catch (error) {
     console.log('Error to obtain cities: ', error);
   }

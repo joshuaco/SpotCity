@@ -68,4 +68,24 @@ const fetchEventTypes = async () => {
   return uniqueEventTypes;
 };
 
-export { fetchData, fetchCities, fetchEventTypes };
+const fetchGeoEvents = async () => {
+  try {
+    const params = {
+      apikey: API_KEY,
+      size: 15,
+      city: "New York",
+    };
+
+    const queryString = new URLSearchParams(params).toString();
+    const response = await fetch(`${API_URL}?${queryString}`);
+    const data = await response.json();
+
+    const events = data._embedded.events
+    console.log(data._embedded.events);
+    return events;
+  } catch (error) {
+    alert("No events in this area");
+  }
+} 
+
+export { fetchData, fetchCities, fetchEventTypes, fetchGeoEvents };
