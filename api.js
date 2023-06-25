@@ -80,8 +80,7 @@ const fetchGeoEvents = async () => {
     const response = await fetch(`${API_URL}?${queryString}`);
     const data = await response.json();
 
-    const events = data._embedded.events
-    console.log(data._embedded.events);
+    const events = data._embedded.events;
     return events;
   } catch (error) {
     alert("No events in this area");

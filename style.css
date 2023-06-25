@@ -11,6 +11,10 @@
   border-radius: 8px;
 }
 
+#events-container h2 {
+  text-align: center;
+}
+
 .event-container {
   width: 100%;
   display: flex;
